@@ -1,0 +1,143 @@
+#can use this to grab hex color code instead of rgb
+#:import utils kivy.utils
+
+<account>
+    id:file_widget
+    #create an embedded box
+    BoxLayout:
+        orientation:"vertical"
+        size:root.width,root.height
+        padding: 5
+
+        background_color: (10/255, 2/255, 48/255, 1)
+        canvas.before:
+            Color:
+                rgba: self.background_color
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        BoxLayout:
+            orientation:"horizontal"
+            size_hint:(1,None)
+            height:30
+
+            pos_hint:{'center_x':0.5}
+
+            Button:
+                text:"Back"
+                font_size:12
+
+                size_hint:(None,None)
+                height:25
+
+                background_normal:""
+                background_color:(87/255,87/255,94/255,1)
+
+                on_press:
+                    root.manager.transition.direction = 'left'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'main'
+
+            Label:
+                text:" "
+
+                size_hint:(1,None)
+                height:25
+                width: 500
+
+                background_normal:""
+                #background_color:(87/255,87/255,94/255,1)
+                canvas.before:
+                    Color:
+                        rgba: 87/255,87/255,94/255,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+        ScrollView:
+            FileChooserIconView:
+                id: filechooser
+                on_selection: file_widget.selected(filechooser.selection)
+                #specify starting path
+                path: '../Inventory'
+
+
+        
+        BoxLayout:
+            id:buttons
+            orientation:"horizontal"
+            pos_hint:{'center_x':0.5}
+            pos_hint:{'center_y':0.5}
+            padding: 20
+            spacing: 20
+            size_hint: (1, None)
+
+            Button:
+                text:"Import\n [font=calibri]Excel"
+                font_size:25
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+                markup:True
+
+                size_hint:(2,2)
+                height:25
+
+                background_normal:""
+                background_color:(48/255,217/255,33/255,0.5)
+
+                on_press: root.submitImport()
+                on_press: fileString.text = "File imported"
+                    
+            Button:
+                text:"Export\n[font=calibri] Excel"
+                font_size:25
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+                markup:True
+
+                size_hint:(2,2)
+                height:25
+
+                background_normal:""
+                background_color:(48/255,217/255,33/255,0.5)
+
+                on_press: root.sendExport()
+                on_press: fileString.text = "Database Exported to 'Exports'"
+            
+            Button:
+                text:"Export[font=calibri] Excel\n[/font]  Template"
+                font_size:25
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+                markup:True
+
+                size_hint:(2,2)
+                height:25
+
+                background_normal:""
+                background_color:(48/255,217/255,33/255,0.5)
+
+                on_press: root.sendTExport()
+                on_press: fileString.text = ("Database Template Exported to 'Exports'")
+
+    Label:
+        id: fileString
+        text: "File Selected:"
+        font_size:15
+
+        size_hint_y:None
+        height:20
+
+        background_normal:""
+        #background_color:(87/255,87/255,94/255,1)
+        canvas.before:
+            Color:
+                rgba: 48/255,84/255,150/255,.7 #87/255,87/255,94/255,1
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                

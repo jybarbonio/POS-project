@@ -1,0 +1,342 @@
+<mainPOS>
+    #create an embedded box
+    BoxLayout:
+        orientation:"vertical"
+        size:root.width,root.height
+        padding: 5
+
+        background_color: (10/255, 2/255, 48/255, 1)
+        canvas.before:
+            Color:
+                rgba: self.background_color
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        BoxLayout:
+            orientation:"horizontal"
+            size_hint:(1,None)
+            height:25
+
+            pos_hint:{'center_x':0.5}
+           
+            Button:
+                text:"Back"
+                font_size:12
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+
+                size_hint:(1,1)
+                height:25
+
+                background_normal:""
+                background_color:(87/255,87/255,94/255,1)
+
+                on_press:
+                    root.manager.transition.direction = 'right'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'front'
+
+            Button:
+                text:"Add Product"
+                font_size:12
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+
+                size_hint:(1,1)
+                height:25
+
+                background_normal:""
+                background_color:(87/255,87/255,94/255,1)
+
+                on_press:
+                    root.manager.transition.direction = 'left'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'account'
+                    
+            Button:
+                text:"Product List"
+                font_size:12
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+
+                size_hint:(1,1)
+                height:25
+
+                background_normal:""
+                background_color:(87/255,87/255,94/255,1)
+
+                on_press:
+                    root.manager.transition.direction = 'left'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'search'
+                    root.manager.get_screen('search').setRecords()
+
+            Button:
+                text:"Reports"
+                font_size:12
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+
+                size_hint:(1,1)
+                height:25
+
+                background_normal:""
+                background_color:(87/255,87/255,94/255,1)
+
+                on_press:
+                    root.manager.transition.direction = 'left'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'reports'
+
+            Label:
+                text:" "
+
+                size_hint:(4,1)
+                height:25
+                width: 500
+
+                background_normal:""
+                #background_color:(87/255,87/255,94/255,1)
+                canvas.before:
+                    Color:
+                        rgba: 87/255,87/255,94/255,1
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+            Button:
+                text:"Shopping Cart"
+                font_size:12
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+
+                size_hint:(1,1)
+                height:25
+                background_normal:""
+                background_color:(87/255,87/255,94/255,1)
+
+                on_press:
+                    root.manager.transition.direction = 'left'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'cart'
+
+            Button:
+                text:"Log Out"
+                font_size:12
+                bold:True
+                outline_color:(0,0,0)
+                outline_width: 1
+
+                size_hint:(1,1)
+                height:25
+
+                background_normal:""
+                background_color:(87/255,87/255,94/255,1)
+
+                on_press:
+                    root.manager.transition.direction = 'right'
+                    root.manager.transition.duration = 1
+                    root.manager.current = 'front'
+
+        BoxLayout:
+            orientation: "horizontal"
+            size:root.width,root.height
+            spacing: 7
+            padding: 4
+            size_hint:(1,1)
+            
+            canvas.before:
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+                    source: root.getBackground()
+                   
+
+            BoxLayout:
+                orientation: "vertical"
+                size_hint_x: 0.70
+                
+                TextInput:
+                    id: searchprompt
+                    size_hint_y: 0.08
+                    multiline: False
+                    hint_text: "search for an item here..."
+                    #on_text_validate: root.on_searchquery(self)
+                    on_text_validate: root.tickersearch(self)
+
+                ScrollView:
+                    MDList:
+                        id: mdlSEARCHRESULTS
+
+            BoxLayout:
+                orientation:"vertical"
+                size:root.width,root.height
+                size_hint_x: 0.30
+                padding: 1
+                spacing: 2
+
+                Label:
+                    text:"Shopping Cart:"
+                    font_size: self.height/2.5
+                    bold:True
+                    outline_color:(0,0,0)
+                    outline_width: 1
+
+                    size_hint_y: 0.1
+
+                    background_normal:""
+                    #background_color:(41/255,75/255,150/255,0.5)
+                    canvas.before:
+                        Color:
+                            rgba: 41/255,75/255,150/255,0.5
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                ScrollView:
+                    font_size:self.width/8
+
+                    size_hint_y: 1
+
+                    background_normal:""
+                    canvas.before:
+                        Color:
+                            rgba: 106/255,125/255,166/255,0.5
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                    MDList:
+                        id: mdlCART
+
+                Label:
+                    id: lblstax
+                    text:"Sales Tax: $0.00"
+                    font_size:self.height/2.5
+                    bold:True
+                    outline_color:(0,0,0)
+                    outline_width: 1
+
+                    size_hint_y:0.1
+                    background_normal:""
+                    canvas.before:
+                        Color:
+                            rgba: 41/255,75/255,150/255,0.5
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                Label:
+                    id: lblsubtotal
+                    text: "Sub Total: $0.00"
+                    font_size:self.height/2.5
+                    bold:True
+                    outline_color:(0,0,0)
+                    outline_width: 1
+
+                    size_hint_y:0.1
+                    #height:20
+
+                    background_normal:""
+                    canvas.before:
+                        Color:
+                            rgba: 41/255,75/255,150/255,0.5
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                Label:
+                    id: lbltotal
+                    text: "Total: $0.00"
+                    font_size:self.height/2.5
+                    bold:True
+                    outline_color:(0,0,0)
+                    outline_width: 1
+
+                    size_hint_y:0.1
+
+                    background_normal:""
+                    canvas.before:
+                        Color:
+                            rgba: 41/255,75/255,150/255,0.5
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                
+                BoxLayout:
+                    orientiation: "Vertical"
+                    size_hint_y: 0.15
+                    padding: 2
+                           
+                #clear/go to shopping cart buttons
+                BoxLayout:
+                    orientation: "horizontal"
+                    size_hint_y: 0.25
+
+                    #padding: 10
+                    spacing: 4
+
+                    Button:
+                        text:"Clear Cart"
+                        font_size: self.width/8
+                        bold:True
+                        outline_color:(0,0,0)
+                        outline_width: 1
+
+                        #size_hint:(1,0.25)
+                        #background_normal:""
+                        #background_color:(87/255,87/255,94/255,1)
+
+                        on_release: root.cart_deleteall(self)
+                        
+                        background_color:(240/255,31/255,31/255,0.5)
+                        canvas.before:
+                            Color:
+                                rgba: self.background_color
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+
+                    Button:
+                        text:"Finish"
+                        font_size: self.width/8
+                        bold:True
+                        outline_color:(0,0,0)
+                        outline_width: 1
+
+                        #size_hint:(1,0.25)
+                        #background_normal:""
+                        #background_color:(48/255,217/255,33/255,0.5)
+                        
+                        background_color:(48/255,217/255,33/255,0.5)
+                        canvas.before:
+                            Color:
+                                rgba: self.background_color
+                            Rectangle:
+                                size: self.size
+                                pos: self.pos
+
+                        on_press:
+                            root.manager.transition.direction = 'left'
+                            root.manager.transition.duration = 1
+                            root.manager.current = 'cart'
+                            root.manager.get_screen('cart').getCartData()
+                    
+
+#if we decided on rounded buttons....
+#<RoundedButton@Button>
+    #background_color: (0,0,0,0)
+    #background_normal: ''
+    #canvas.before:
+        #Color:
+            #rgba: (48/255,84/255,150/255,1)
+        #RoundedRectangle:
+            #size: self.size
+            #pos: self.pos
+            #radius: [58]
+
